@@ -1,0 +1,6 @@
+*.pyc
+__pycache__/
+.env
+forecast_env/
+stores_forecasts/
+darts_logs/

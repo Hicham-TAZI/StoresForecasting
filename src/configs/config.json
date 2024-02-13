@@ -1,0 +1,17 @@
+{
+    "data_loader": {
+      "file_path": "DailyOrders.csv",
+      "delimiter": "\t"
+    },
+    "model": {
+      "batch_size": 128,
+      "max_n_epochs": 100,
+      "nr_epochs_val_period": 1,
+      "max_samples_per_ts": 10
+    },
+    "experiment": {
+      "val_len": 100,
+      "forecast_days": 100
+    }
+  }
+  
