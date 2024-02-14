@@ -38,7 +38,7 @@ def build_fit_tcn_model(
     
     # Define fixed parameters for all models
     BATCH_SIZE = 128
-    MAX_N_EPOCHS = 2
+    MAX_N_EPOCHS = 100
     NR_EPOCHS_VAL_PERIOD = 1
     MAX_SAMPLES_PER_TS = 10
 
