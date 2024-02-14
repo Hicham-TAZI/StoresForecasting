@@ -20,7 +20,7 @@ def objective(trial, series, out_len=100):
 
 
     # Build and fit the TCN model
-    model, train_scaled, val_scaled, _ = build_fit_tcn_model(
+    model, train_scaled, val_scaled, _, scaler = build_fit_tcn_model(
         series=series,
         in_len=in_len,
         out_len=out_len,
@@ -34,10 +34,15 @@ def objective(trial, series, out_len=100):
     )
 
     # Predict on the validation set and compute RMSE
-    val_pred = model.predict(series=train_scaled, n=out_len)
-    val_rmse = rmse(val_scaled, val_pred)
+    val_pred_scaled = model.predict(series=train_scaled, n=out_len)
+    # Inverse transform the predictions and the validation set
+    val_pred = scaler.inverse_transform(val_pred_scaled)
+    val_original = scaler.inverse_transform(val_scaled)
 
-    return val_rmse
+    # Compute RMSE on the original scale
+    val_rmse_original_scale = rmse(val_original, val_pred)
+
+    return val_rmse_original_scale
 
 def optimize_model(series, n_trials=100):
     """
