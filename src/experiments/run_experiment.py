@@ -55,16 +55,19 @@ def run(store_number, n_trials):
         logger.info(f"Optimization complete. Best parameters: {best_params}")
 
         log_separator(msg="Model Training")
-        best_model, train_scaled, val_scaled, test_scaled = build_fit_tcn_model(series, **best_params)
+        best_model, train_scaled, val_scaled, test_scaled, scaler = build_fit_tcn_model(series, **best_params)
         logger.info("Model training complete.")
 
         log_separator(msg="Model Evaluation")
-        eval_model(best_model, train_scaled, val_scaled, test_scaled, store_number, experiment_name)
+        eval_model(best_model, train_scaled, val_scaled, test_scaled, scaler, store_number, experiment_name)
         logger.info("Evaluation plots saved.")
 
         log_separator(msg="Forecasting Future Data")
         forecast = best_model.predict(n=100, series=train_scaled.append(val_scaled))
-        save_forecast_to_csv(forecast, store_number, experiment_name)
+        # Inverse transform the forecast
+        forecast_original = scaler.inverse_transform(forecast)
+
+        save_forecast_to_csv(forecast_original, store_number, experiment_name)
         logger.info("Forecast saved. Experiment concluded successfully.")
         
     except Exception as e:

@@ -75,4 +75,4 @@ def build_fit_tcn_model(
     # Train the model
     model.fit(series=train_scaled, val_series=model_val_set, verbose=True)
 
-    return model, train_scaled, val_scaled, test_scaled
+    return model, train_scaled, val_scaled, test_scaled, scaler
